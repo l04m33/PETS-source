@@ -6,7 +6,7 @@ import os
 
 fn = sys.argv[1]
 ffn = os.path.split(fn)[-1]
-ffn = fn[:-6]
+ffn = ffn[:-6]
 
 x = glade.XML(fn)
 w = x.get_widget(ffn)

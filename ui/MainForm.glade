@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.3 on Tue May 05 16:07:24 2009 -->
+<!--Generated with glade3 3.4.3 on Tue May 05 16:22:34 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainForm">
     <property name="border_width">9</property>
     <property name="decorated">False</property>
-    <property name="opacity">0.89999997615814209</property>
     <child>
       <widget class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
