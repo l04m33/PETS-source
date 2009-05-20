@@ -1,9 +1,10 @@
+from os import path
 from xml.dom import minidom
 
 class UnknownSQLError(Exception):
   pass
 
-__xml_path = 'sql_statements.xml'
+__xml_path = path.split(__file__)[0] + '/sql_statements.xml'
 
 __xml_file = open(__xml_path)
 _sql_dom = minidom.parse(__xml_file).firstChild
