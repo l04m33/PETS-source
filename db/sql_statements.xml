@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+
+<sql>
+
+<buddies>
+    <insert>
+        insert into buddies (uuid, name) values ('%s', '%s');
+    </insert>
+    <select_all>
+        select * from buddies;
+    </select_all>
+</buddies>
+
+<buddy_extra>
+    <insert>
+        insert into buddy_extra (buddy_uuid, name, value) values ('%s', '%s', '%s');
+    </insert>
+    <select_all>
+        select * from buddy_extra;
+    </select_all>
+</buddy_extra>
+
+<chat_log>
+    <insert>
+        insert into chat_log (id, buddy_uuid, content, log_time) values (null, '%s', '%s', '%s');
+    </insert>
+    <select_all>
+        select * from chat_log;
+    </select_all>
+</chat_log>
+
+<ext_prefs>
+    <insert>
+        insert into ext_prefs (ext_id, name, value, type) values (%lu, '%s', '%s', '%s');
+    </insert>
+    <select_all>
+        select * from ext_prefs;
+    </select_all>
+</ext_prefs>
+
+<exts>
+    <insert>
+        insert into exts (id, name, path, signature) values (null, '%s', '%s', %lu);
+    </insert>
+    <select_all>
+        select * from exts;
+    </select_all>
+</exts>
+
+<file_tag>
+    <insert>
+        insert into file_tag (file_hash, tag_id) values ('%s', %lu);
+    </insert>
+    <select_all>
+        select * from file_tag;
+    </select_all>
+</file_tag>
+
+<local_files>
+    <insert>
+        insert into local_files (hash, full_name, name, seg_size, mod_time, size)
+        values ('%s', '%s', '%s', %lu, '%s', %lu);
+    </insert>
+    <select_all>
+        select * from local_files;
+    </select_all>
+</local_files>
+
+<local_segs>
+    <insert>
+        insert into local_segs (hash, offset, file_hash, present) values ('%s', %lu, '%s', '%s');
+    </insert>
+    <select_all>
+        select * from local_segs;
+    </select_all>
+</local_segs>
+
+<prof_attrs>
+    <insert>
+        insert into prof_attrs (name, value) values ('%s', '%s');
+    </insert>
+    <select_all>
+        select * from prof_attrs;
+    </select_all>
+</prof_attrs>
+
+<tags>
+    <insert>
+        insert into tags (id, name) values (null, '%s');
+    </insert>
+    <select_all>
+        select * from tags;
+    </select_all>
+</tags>
+
+</sql>
