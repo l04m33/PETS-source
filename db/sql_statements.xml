@@ -9,6 +9,12 @@
     <select_all>
         select * from buddies;
     </select_all>
+    <select_by_pk>
+        select * from buddies where uuid = '%s';
+    </select_by_pk>
+    <delete_by_pk>
+        delete from buddies where uuid = '%s';
+    </delete_by_pk>
 </buddies>
 
 <buddy_extra>
@@ -18,6 +24,12 @@
     <select_all>
         select * from buddy_extra;
     </select_all>
+    <select_by_pk>
+        select * from buddy_extra where buddy_uuid = '%s' and name = '%s';
+    </select_by_pk>
+    <delete_by_pk>
+        delete from buddy_extra where buddy_uuid = '%s' and name = '%s';
+    </delete_by_pk>
 </buddy_extra>
 
 <chat_log>
@@ -27,6 +39,12 @@
     <select_all>
         select * from chat_log;
     </select_all>
+    <select_by_pk>
+        select * from chat_log where id = %lu;
+    </select_by_pk>
+    <delete_by_pk>
+        delete from chat_log where id = %lu;
+    </delete_by_pk>
 </chat_log>
 
 <ext_prefs>
@@ -36,6 +54,12 @@
     <select_all>
         select * from ext_prefs;
     </select_all>
+    <select_by_pk>
+        select * from ext_prefs where ext_id = %lu and name = '%s';
+    </select_by_pk>
+    <delete_by_pk>
+        delete from ext_prefs where ext_id = %lu and name = '%s';
+    </delete_by_pk>
 </ext_prefs>
 
 <exts>
@@ -45,6 +69,12 @@
     <select_all>
         select * from exts;
     </select_all>
+    <select_by_pk>
+        select * from exts where id = %lu;
+    </select_by_pk>
+    <delete_by_pk>
+        delete from exts where id = %lu;
+    </delete_by_pk>
 </exts>
 
 <file_tag>
@@ -54,6 +84,12 @@
     <select_all>
         select * from file_tag;
     </select_all>
+    <select_by_pk>
+        select * from file_tag where file_hash = '%s' and tag_id = %lu;
+    </select_by_pk>
+    <delete_by_pk>
+        delete from file_tag where file_hash = '%s' and tag_id = %lu;
+    </delete_by_pk>
 </file_tag>
 
 <local_files>
@@ -64,6 +100,12 @@
     <select_all>
         select * from local_files;
     </select_all>
+    <select_by_pk>
+        select * from local_files where hash = '%s';
+    </select_by_pk>
+    <delete_by_pk>
+        delete from local_files where hash = '%s';
+    </delete_by_pk>
 </local_files>
 
 <local_segs>
@@ -73,6 +115,12 @@
     <select_all>
         select * from local_segs;
     </select_all>
+    <select_by_pk>
+        select * from local_segs where hash = '%s';
+    </select_by_pk>
+    <delete_by_pk>
+        delete from local_segs where hash = '%s';
+    </delete_by_pk>
 </local_segs>
 
 <prof_attrs>
@@ -82,6 +130,12 @@
     <select_all>
         select * from prof_attrs;
     </select_all>
+    <select_by_pk>
+        select * from prof_attrs where name = '%s';
+    </select_by_pk>
+    <delete_by_pk>
+        delete from prof_attrs where name = '%s';
+    </delete_by_pk>
 </prof_attrs>
 
 <tags>
@@ -91,6 +145,12 @@
     <select_all>
         select * from tags;
     </select_all>
+    <select_by_pk>
+        select * from tags where id = %lu;
+    </select_by_pk>
+    <delete_by_pk>
+        delete from tags where id = %lu;
+    </delete_by_pk>
 </tags>
 
 </sql>
