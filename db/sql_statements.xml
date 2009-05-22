@@ -97,6 +97,10 @@
         insert into local_files (hash, full_name, name, seg_size, mod_time, size)
         values (?, ?, ?, ?, ?, ?);
     </insert>
+    <update>
+        update local_files set full_name = ?, name = ?, seg_size = ?, mod_time = ?, size = ?
+        where hash = ?;
+    </update>
     <select_all>
         select * from local_files;
     </select_all>
@@ -112,6 +116,9 @@
     <insert>
         insert into local_segs (hash, offset, file_hash, present) values (?, ?, ?, ?);
     </insert>
+    <update>
+        update local_segs set offset = ?, file_hash = ?, present = ? where hash = ?;
+    </update>
     <select_all>
         select * from local_segs;
     </select_all>
@@ -130,6 +137,9 @@
     <insert>
         insert into prof_attrs (name, value) values (?, ?);
     </insert>
+    <update>
+        update prof_attrs set value = ? where name = ?;
+    </update>
     <select_all>
         select * from prof_attrs;
     </select_all>

@@ -7,85 +7,133 @@ class NoActiveConnectionError(Exception):
   pass
 
 
-class LocalFileDA:
+class BaseDA:
 
   def __init__(self):
-    self.__conn = None
+    self._conn = None
     self.cpool = cpool.get_cpool()
 
-  # sqlite locks the db if there's a dirty session
-  # no locking should be done here
   def begin_transaction(self):
-    # drop all the changes if there's already an active session
-    if self.__conn is not None:
-      self.__conn.rollback()
-    self.__conn = self.cpool.get_connection()
+    if self._conn is not None:
+      self._conn.rollback()
+    self._conn = self.cpool.get_connection()
 
   def end_transaction(self):
-    self.__check_conn()
-    self.__conn.commit()
-    self.cpool.put_connection(self.__conn)
-    self.__conn = None
+    self._check_conn()
+    self._conn.commit()
+    self.cpool.put_connection(self._conn)
+    self._conn = None
 
   def rollback(self):
-    self.__check_conn()
-    self.__conn.rollback()
+    self._check_conn()
+    self._conn.rollback()
+
+  def _check_conn(self):
+    if self._conn is None:
+      raise NoActiveConnectionError("maybe you should 'begin_transaction()' before calling this")
+
+
+class LocalFileDA(BaseDA):
 
   def load_by_hash(self, hash):
-    self.__check_conn()
-    cur = self.__conn.execute(
-        supp.get_sql('local_files.select_by_pk'), (hash,)
-        )
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_files.select_by_pk'), (hash,))
     return cur
 
   def load_all(self):
-    self.__check_conn()
-    cur = self.__conn.execute(
-        supp.get_sql('local_files.select_all')
-        )
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_files.select_all'))
     return cur
 
   def load_seg_by_hash(self, hash):
-    self.__check_conn()
-    cur = self.__conn.execute(
-        supp.get_sql('local_segs.select_by_pk'), (hash,)
-        )
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_segs.select_by_pk'), (hash,))
     return cur
 
   def load_all_segs(self):
-    self.__check_conn()
-    cur = self.__conn.execute(
-        supp.get_sql('local_segs.select_all')
-        )
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_segs.select_all'))
     return cur
 
   def load_segs_by_file(self, file_hash):
-    self.__check_conn()
-    cur = self.__conn.execute(
-        supp.get_sql('local_segs.select_by_fk'), (file_hash,)
-        )
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_segs.select_by_fk'), (file_hash,))
     return cur
 
   def save_row(self, row):
-    self.__check_conn()
-    self.__conn.execute(supp.get_sql('local_files.insert'), row)
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_files.insert'), row)
+    return cur.rowcount
+
+  def update_row(self, row):
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_files.update'), row[1:] + (row[0],))
+    return cur.rowcount
 
   def del_by_hash(self, hash):
-    self.__check_conn()
-    self.__conn.execute(supp.get_sql('local_files.delete_by_pk'), (hash,))
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_files.delete_by_pk'), (hash,))
+    return cur.rowcount
 
   def save_seg_row(self, seg_row):
-    self.__check_conn()
-    self.__conn.execute(supp.get_sql('local_segs.insert'), seg_row)
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_segs.insert'), seg_row)
+    return cur.rowcount
+
+  def update_seg_row(self, seg_row):
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_segs.update'), seg_row[1:] + (seg_row[0],))
+    return cur.rowcount
 
   def del_seg_by_hash(self, seg_hash):
-    self.__check_conn()
-    self.__conn.execute(supp.get_sql('local_segs.delete_by_pk'), (seg_hash,))
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('local_segs.delete_by_pk'), (seg_hash,))
+    return cur.rowcount
 
-  def __check_conn(self):
-    if self.__conn is None:
-      raise NoActiveConnectionError("maybe you should 'begin_transaction()' before calling this")
 
+class ProfileAttrDA(BaseDA):
+
+  def save_row(self, row):
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('prof_attrs.insert'), row)
+    return cur.rowcount
+
+  # well, we locate the to-be-modified row by looking at their PK
+  def update_row(self, row):
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('prof_attrs.update'), (row[1], row[0]))
+    return cur.rowcount
+
+  def load_by_name(self, name):
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('prof_attrs.select_by_pk'), (name,))
+    return cur
+
+  def load_all(self):
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('prof_attrs.select_all'))
+    return cur
+
+  def del_by_name(self, name):
+    self._check_conn()
+    cur = self._conn.execute(
+        supp.get_sql('prof_attrs.delete_by_pk'), (name,))
+    return cur.rowcount
 
 
 if __name__ == '__main__':
@@ -95,7 +143,7 @@ if __name__ == '__main__':
 
   cpool.cpool_init('/home/l_amee/client_share/P.E.T.S/tmp/pets_def_db.sqlite3', 5)
 
-  # testing for the LocalFileDA
+  print "---------- testing for the LocalFileDA ----------"
   lfda = LocalFileDA()
 
   lfda.begin_transaction()
@@ -117,3 +165,22 @@ if __name__ == '__main__':
   lfda.del_seg_by_hash('seg_hash1')
   lfda.del_by_hash(s.digest())
   lfda.end_transaction()
+
+  print
+  print "---------- testing for the ProfileAttrDA ----------"
+  pada = ProfileAttrDA()
+
+  pada.begin_transaction()
+  pada.save_row(('test1', 'test value 1'))
+  pada.save_row(('uuid', '123-456-789'))
+  pada.end_transaction()
+
+  pada.begin_transaction()
+  print pada.load_by_name('uuid').fetchall()
+  print pada.load_all().fetchall()
+  pada.end_transaction()
+
+  pada.begin_transaction()
+  pada.del_by_name('uuid')
+  pada.del_by_name('test1')
+  pada.end_transaction()
