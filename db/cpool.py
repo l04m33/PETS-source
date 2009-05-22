@@ -10,6 +10,7 @@ class ConnectionPool:
     self.db_path = db_path
     for i in range(n):
       conn = sqlite3.connect(db_path)
+      conn.text_factory = str
       self.pool.append(conn)
 
   def get_connection(self):

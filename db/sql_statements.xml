@@ -4,152 +4,155 @@
 
 <buddies>
     <insert>
-        insert into buddies (uuid, name) values ('%s', '%s');
+        insert into buddies (uuid, name) values (?, ?);
     </insert>
     <select_all>
         select * from buddies;
     </select_all>
     <select_by_pk>
-        select * from buddies where uuid = '%s';
+        select * from buddies where uuid = ?;
     </select_by_pk>
     <delete_by_pk>
-        delete from buddies where uuid = '%s';
+        delete from buddies where uuid = ?;
     </delete_by_pk>
 </buddies>
 
 <buddy_extra>
     <insert>
-        insert into buddy_extra (buddy_uuid, name, value) values ('%s', '%s', '%s');
+        insert into buddy_extra (buddy_uuid, name, value) values (?, ?, ?);
     </insert>
     <select_all>
         select * from buddy_extra;
     </select_all>
     <select_by_pk>
-        select * from buddy_extra where buddy_uuid = '%s' and name = '%s';
+        select * from buddy_extra where buddy_uuid = ? and name = ?;
     </select_by_pk>
     <delete_by_pk>
-        delete from buddy_extra where buddy_uuid = '%s' and name = '%s';
+        delete from buddy_extra where buddy_uuid = ? and name = ?;
     </delete_by_pk>
 </buddy_extra>
 
 <chat_log>
     <insert>
-        insert into chat_log (id, buddy_uuid, content, log_time) values (null, '%s', '%s', '%s');
+        insert into chat_log (id, buddy_uuid, content, log_time) values (null, ?, ?, ?);
     </insert>
     <select_all>
         select * from chat_log;
     </select_all>
     <select_by_pk>
-        select * from chat_log where id = %lu;
+        select * from chat_log where id = ?;
     </select_by_pk>
     <delete_by_pk>
-        delete from chat_log where id = %lu;
+        delete from chat_log where id = ?;
     </delete_by_pk>
 </chat_log>
 
 <ext_prefs>
     <insert>
-        insert into ext_prefs (ext_id, name, value, type) values (%lu, '%s', '%s', '%s');
+        insert into ext_prefs (ext_id, name, value, type) values (?, ?, ?, ?);
     </insert>
     <select_all>
         select * from ext_prefs;
     </select_all>
     <select_by_pk>
-        select * from ext_prefs where ext_id = %lu and name = '%s';
+        select * from ext_prefs where ext_id = ? and name = ?;
     </select_by_pk>
     <delete_by_pk>
-        delete from ext_prefs where ext_id = %lu and name = '%s';
+        delete from ext_prefs where ext_id = ? and name = ?;
     </delete_by_pk>
 </ext_prefs>
 
 <exts>
     <insert>
-        insert into exts (id, name, path, signature) values (null, '%s', '%s', %lu);
+        insert into exts (id, name, path, signature) values (null, ?, ?, ?);
     </insert>
     <select_all>
         select * from exts;
     </select_all>
     <select_by_pk>
-        select * from exts where id = %lu;
+        select * from exts where id = ?;
     </select_by_pk>
     <delete_by_pk>
-        delete from exts where id = %lu;
+        delete from exts where id = ?;
     </delete_by_pk>
 </exts>
 
 <file_tag>
     <insert>
-        insert into file_tag (file_hash, tag_id) values ('%s', %lu);
+        insert into file_tag (file_hash, tag_id) values (?, ?);
     </insert>
     <select_all>
         select * from file_tag;
     </select_all>
     <select_by_pk>
-        select * from file_tag where file_hash = '%s' and tag_id = %lu;
+        select * from file_tag where file_hash = ? and tag_id = ?;
     </select_by_pk>
     <delete_by_pk>
-        delete from file_tag where file_hash = '%s' and tag_id = %lu;
+        delete from file_tag where file_hash = ? and tag_id = ?;
     </delete_by_pk>
 </file_tag>
 
 <local_files>
     <insert>
         insert into local_files (hash, full_name, name, seg_size, mod_time, size)
-        values ('%s', '%s', '%s', %lu, '%s', %lu);
+        values (?, ?, ?, ?, ?, ?);
     </insert>
     <select_all>
         select * from local_files;
     </select_all>
     <select_by_pk>
-        select * from local_files where hash = '%s';
+        select * from local_files where hash = ?;
     </select_by_pk>
     <delete_by_pk>
-        delete from local_files where hash = '%s';
+        delete from local_files where hash = ?;
     </delete_by_pk>
 </local_files>
 
 <local_segs>
     <insert>
-        insert into local_segs (hash, offset, file_hash, present) values ('%s', %lu, '%s', '%s');
+        insert into local_segs (hash, offset, file_hash, present) values (?, ?, ?, ?);
     </insert>
     <select_all>
         select * from local_segs;
     </select_all>
     <select_by_pk>
-        select * from local_segs where hash = '%s';
+        select * from local_segs where hash = ?;
     </select_by_pk>
+    <select_by_fk>
+        select * from local_segs where file_hash = ?;
+    </select_by_fk>
     <delete_by_pk>
-        delete from local_segs where hash = '%s';
+        delete from local_segs where hash = ?;
     </delete_by_pk>
 </local_segs>
 
 <prof_attrs>
     <insert>
-        insert into prof_attrs (name, value) values ('%s', '%s');
+        insert into prof_attrs (name, value) values (?, ?);
     </insert>
     <select_all>
         select * from prof_attrs;
     </select_all>
     <select_by_pk>
-        select * from prof_attrs where name = '%s';
+        select * from prof_attrs where name = ?;
     </select_by_pk>
     <delete_by_pk>
-        delete from prof_attrs where name = '%s';
+        delete from prof_attrs where name = ?;
     </delete_by_pk>
 </prof_attrs>
 
 <tags>
     <insert>
-        insert into tags (id, name) values (null, '%s');
+        insert into tags (id, name) values (null, ?);
     </insert>
     <select_all>
         select * from tags;
     </select_all>
     <select_by_pk>
-        select * from tags where id = %lu;
+        select * from tags where id = ?;
     </select_by_pk>
     <delete_by_pk>
-        delete from tags where id = %lu;
+        delete from tags where id = ?;
     </delete_by_pk>
 </tags>
 
