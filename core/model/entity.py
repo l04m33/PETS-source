@@ -41,7 +41,7 @@ class Profile:
       while fnames:
         fn = path.join(dirname, fnames.pop())
         if path.isfile(fn):
-          tpda._conn = sqlite3.connect(fn) # XXX: well this is a dirty trick....
+          tpda._conn = sqlite3.connect(fn) # XXX: well, a dirty trick
           prof = None
           try:
             attr_lst = tpda.load_all()
