@@ -57,8 +57,9 @@ def get_cpool():
 
 def cpool_release():
   global __def_cpool
-  __def_cpool.release()
-  __def_cpool = None
+  if __def_cpool:
+    __def_cpool.release()
+    __def_cpool = None
 
 
 if __name__ == '__main__':

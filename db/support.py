@@ -1,10 +1,11 @@
+import sqlite3
 from os import path
 from xml.dom import minidom
 
 class UnknownSQLError(Exception):
   pass
 
-__xml_path = path.split(__file__)[0] + '/sql_statements.xml'
+__xml_path = path.join(path.split(__file__)[0], 'sql_statements.xml')
 
 __xml_file = open(__xml_path)
 _sql_dom = minidom.parse(__xml_file).firstChild
@@ -31,6 +32,16 @@ def get_sql(qname):
     cur_list = match.childNodes
 
   return match.firstChild.nodeValue
+
+
+__schema_path = path.join(path.split(__file__)[0], 'db_schema.sql')
+
+def gen_db(db_path):
+  fsql = open(__schema_path)
+  conn = sqlite3.connect(db_path)
+  conn.executescript(fsql.read())
+  conn.close()
+  fsql.close()
 
 
 if __name__ == '__main__':
