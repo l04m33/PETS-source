@@ -25,7 +25,7 @@ class ProfileManager:
 
   def del_profile(self, profile):
     cprof = self.get_cur_profile()
-    if profile.id == cprof.id:
+    if (cprof is not None) and (profile.id == cprof.id):
       raise CannotDeleteCurrentProfileError("profile is in use");
     db_fname = None
     if profile.db_fname:
@@ -39,12 +39,13 @@ class ProfileManager:
 
   def set_cur_profile(self, profile):
     self.__cur_prof = profile
+    cpool.cpool_release()
+    if profile is None: return
     db_fname = None
     if profile.db_fname:
       db_fname = profile.db_fname
     else:
       db_fname = path.join(self.prof_dir, profile.id)
-    cpool.cpool_release()
     cpool.cpool_init(db_fname, 5)
     # XXX: send out the 'alive' announcement
 
